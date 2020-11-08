@@ -8,15 +8,27 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class Main {
     public static <var> void main(String[] args) {
         String path = "C:\\Users\\ilkop\\IdeaProjects\\PP_Lab2\\src\\com\\mainPackage\\studentslist.txt";
         List<Student> studentList = readStudentsFromFile(path);
         printStudents(studentList);
-        printStudentsByFaculty(studentList,"LAW");
+        printStudentsByFaculty(studentList,ListOfFaculties.COMPUTER_SCIENCE);
+        System.out.println();
         printStudentsByGroup(studentList,"lol-911");
+        System.out.println();
         printStudentsFromYear(studentList,2011);
+
+        System.out.println("\nTo add student press \"a\", to quit press \"q\"");
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.next().equalsIgnoreCase("a")){
+            addNewStudent(studentList);
+            System.out.println("\nTo add student press \"a\", to quit press \"q\"");
+        }
+        System.out.println("\n");
+        printStudents(studentList);
     }
 
     public static List<Student> readStudentsFromFile(String path)
@@ -48,7 +60,7 @@ public class Main {
                 studentList.get(i).setDateOfBirth(calendar);
                 studentList.get(i).setAdress(sc.next());
                 studentList.get(i).setPhone(Integer.parseInt(sc.next().trim()));
-                studentList.get(i).setFaculty(sc.next().trim());
+                studentList.get(i).setFaculty(ListOfFaculties.stringToFaculty(sc.next().trim()));
                 studentList.get(i).setCourse(Integer.parseInt(sc.next().trim()));
                 studentList.get(i).setGroup(sc.next().trim());
                 i++;
@@ -71,10 +83,10 @@ public class Main {
         }
     }
 
-    public static void printStudentsByFaculty(List<Student> list, String faculty){
+    public static void printStudentsByFaculty(List<Student> list, ListOfFaculties faculty){
         System.out.println("Students from faculty of "+faculty+":");
         for (Student student:list) {
-            if(student.getFaculty().equals(faculty)){
+            if(student.getFaculty() == faculty){
                 System.out.println(student);
             }
         }
@@ -99,20 +111,45 @@ public class Main {
     }
 
     public static void addNewStudent(List<Student> list){
-        Scanner sc = new Scanner(System.in);
-        Student newStudent = new Student();
-        newStudent.setId(sc.nextInt());
-        newStudent.setName(sc.nextLine());
-        newStudent.setSurname(sc.nextLine());
-        newStudent.setFatherName(sc.nextLine());
-        newStudent.setDateOfBirth(stringToCalendar(sc.nextLine()));
-        newStudent.setAdress(sc.next());
-        newStudent.setPhone(sc.nextInt());
-        newStudent.setFaculty(sc.next());
+        try {
+            Scanner sc = new Scanner(System.in);
+            Scanner sc2 = new Scanner(System.in);
+            Student newStudent = new Student();
+            System.out.print("Enter id: ");
+            newStudent.setId(sc.nextInt());
+            System.out.print("Enter name: ");
+            newStudent.setName(sc.next());
+            System.out.print("Enter surname: ");
+            newStudent.setSurname(sc.next());
+            System.out.print("Enter farther name: ");
+            newStudent.setFatherName(sc.next());
+            System.out.print("Enter date of birth \"yyyy-mm-dd\": ");
+            newStudent.setDateOfBirth(stringToCalendar(sc.next()));
+            System.out.print("Enter address: \";\" at the end");
+            String tmpstr = "";
+            sc2.useDelimiter(";");
+            tmpstr += sc2.next();
+            newStudent.setAdress(tmpstr);
 
+            System.out.print("Enter phone: ");
+            //sc.useDelimiter("\n");
+            newStudent.setPhone(sc.nextInt());
+            System.out.print("Enter faculty: ");
+            newStudent.setFaculty(ListOfFaculties.stringToFaculty(sc.next().trim()));
+            System.out.print("Enter course: ");
+            newStudent.setCourse(sc.nextInt());
+            System.out.print("Enter group: ");
+            newStudent.setGroup(sc.next());
+
+            list.add(newStudent);
+        }catch (Exception ex){
+            System.out.println("Input error\n"+ex.getMessage());
+
+        }
     }
 
-    public static Calendar stringToCalendar(String dateStr) {
+
+    public static Calendar stringToCalendar(String dateStr) throws ParseException {
         Calendar calendar = new GregorianCalendar(0, 0 , 0);;
         try {
 
@@ -121,7 +158,7 @@ public class Main {
             calendar = Calendar.getInstance();
             calendar.setTime(date);
         }catch (ParseException parseException){
-            System.out.println(parseException.getMessage());
+            throw parseException;
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());

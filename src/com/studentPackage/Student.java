@@ -10,13 +10,13 @@ public class Student {
     private Calendar dateOfBirth;
     private String adress;
     private int phone;
-    private String faculty;
+    private ListOfFaculties faculty;
     private int course;
     private String group;
 
     public Student() {}
     public Student(int id, String surname, String name, String fatherName, Calendar dateOfBirth, String adress,
-                   int phone, String faculty, int course, String group) {
+                   int phone, ListOfFaculties faculty, int course, String group) {
         this.id = id;
         this.surname = surname;
         this.name = name;
@@ -34,7 +34,7 @@ public class Student {
         return "Id: "+id+", Name: "+name+", Surname: "+surname+", Father name: "+fatherName+
                 ", Date of birth: "+dateOfBirth.get(Calendar.YEAR)+"-"+dateOfBirth.get(Calendar.MONTH)+"-"+
                 dateOfBirth.get(Calendar.DATE)
-                +", Adress: "+adress+", Phone: "+phone+", Faculty: "+faculty+", Course: "+course+ ", Group: "+group;
+                +", Adress: "+adress+", Phone: "+phone+", Faculty: "+faculty.getText()+", Course: "+course+ ", Group: "+group;
     }
 
     public void setId(int id) {
@@ -65,7 +65,7 @@ public class Student {
         this.phone = phone;
     }
 
-    public void setFaculty(String faculty) {
+    public void setFaculty(ListOfFaculties faculty) {
         this.faculty = faculty;
     }
 
@@ -105,7 +105,7 @@ public class Student {
         return phone;
     }
 
-    public String getFaculty() {
+    public ListOfFaculties getFaculty() {
         return faculty;
     }
 
