@@ -1,0 +1,3 @@
+1,  Tyler, One, Josipovich, 1111-12-31, Lviv Steves st. 14/88, 1808535351, COMPUTER_SCIENCE, 9, lol-911
+2,  Teeler, Two, Jopovich, 1921-5-10, Lviv Svins st. 14/88, 880812512, LAW, 4, kek-411
+3,  Gyler, Three, Hodipovich, 2011-12-10, Lviv Stens st. 14/88, 880812513, COMPUTER_SCIENCE, 9, lol-911
